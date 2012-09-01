@@ -6,6 +6,8 @@ organization := "yamljson"
 
 libraryDependencies += "org.yaml" % "snakeyaml" % "1.10"
 
-libraryDependencies += "com.google.code.gson" % "gson" % "2.2.2"
+libraryDependencies += "io.backchat.jerkson" % "jerkson_2.9.1" % "0.7.0"
+
+libraryDependencies += "org.scalaj" %% "scalaj-collection" % "1.2"
 
 mainClass in (Compile, run) := Some("yamljson.Sample")

@@ -1,19 +1,15 @@
 package yamljson
 
 import org.yaml.snakeyaml._
-import com.google.gson._
+import com.codahale.jerkson.Json._
+import scalaj.collection.Imports._
 
 object Sample {
   def main(args: Array[String]) {
     println("Source string:\n" + yamlStr)
     printYaml
     printJson
-  }
-
-  def printJson = {
-    val gson = (new GsonBuilder).setPrettyPrinting.create
-    val yaml = new Yaml
-    println("As json:\n" + gson.toJson(yaml.load(yamlStr)) + "\n")
+    printYaml2Json2YamlStr
   }
 
   def printYaml = {
@@ -22,6 +18,24 @@ object Sample {
     val yamlString = yaml.dump(yamlMap)
     println("As Scala map:\n" + yamlMap + "\n")
     println("As string:\n" + yamlString + "\n")
+  }
+
+  def printJson = {
+    val yamlMap = (new Yaml).load(yamlStr)
+    val jsonString = generate(yamlMap)
+    println("As json:\n" + jsonString + "\n")
+  }
+
+  def printYaml2Json2YamlStr = {
+    val yamlMap = (new Yaml).
+      load(yamlStr).asInstanceOf[java.util.Map[String,_]].asScala // Convert to Scala map
+    val jsonString = generate(yamlMap) // Serialise to string with Jerkins
+    val jsonMap = parse[Map[String, Any]](jsonString) // Deserialise to map with Jerkins
+    jsonMap.equals(yamlMap) match {
+      case true  => println("YAML string -> JSON string -> YAML string succeeded")
+      case false =>
+        throw new RuntimeException("YAML string -> JSON string -> YAML string failed")
+    }
   }
 
   def yamlStr =
