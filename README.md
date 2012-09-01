@@ -1,7 +1,6 @@
 # YAML to JSON sample in Scala
 
-This project is an example of how to convert a string into a YAML object and
-then into JSON.
+This project contains examples of transforming YAML into JSON and JSON into YAML.
 
 ## Usage
 
@@ -46,3 +45,5 @@ then into JSON.
         ]
       }
     }
+    
+    YAML string -> JSON string -> YAML string succeeded
